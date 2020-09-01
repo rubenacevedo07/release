@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Persona } from './persona.model';
 import { LoginService } from './login.service';
-
+import { PersonasService } from './personas.service';
 
 @Component({
   selector: 'app-root',
@@ -11,8 +11,7 @@ import { LoginService } from './login.service';
 export class AppComponent {
   title = 'customized';
   titulo = 'Listado de Personas';
-  personas: Persona[] = [new Persona("Juan","Perez"), new Persona("Laura","Juarez")];
- 
+  personas: Persona[] = [];
   constructor(private loginService: LoginService){}
 
   onPersonaAgregada(persona: Persona){

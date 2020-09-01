@@ -3,7 +3,7 @@ import { Persona } from '../persona.model';
 import { LoginService } from '../login.service';
 import { PersonasService } from '../personas.service';
 import { Router, ActivatedRoute } from '@angular/router';
-//import { routerNgProbeToken } from '@angular/router/src/router_module';
+import { map } from 'rxjs/operators';
 
 
 @Component({
@@ -24,10 +24,19 @@ export class PersonasComponent implements OnInit{
               private route:ActivatedRoute
               ){}
     
-    ngOnInit(): void {
-     this.personas = this.personasService.personas;
-    }
 
+    ngOnInit(): void {
+        this.personasService.obtenerPersonas()
+        .subscribe(
+          (personas: Persona[]) => {
+            //Cargamos los datos de la base de datos al arreglo de personas local 
+            this.personas = personas;
+            this.personasService.setPersonas(this.personas);
+            console.log("obtener personas suscriber:" + this.personas);
+          }
+        );
+    }
+    
     irAgregar(){
       console.log("nos vamos a agregar ");
       this.router.navigate(['./personas/agregar'],{queryParams:{modoEdicion:0}});

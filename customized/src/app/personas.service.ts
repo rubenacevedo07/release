@@ -1,21 +1,36 @@
 import { Persona } from './persona.model';
 import { LoginService } from './login.service';
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { DataService } from './data.service';
 
 @Injectable()
 export class PersonasService{
-    personas: Persona[] = [
-        new Persona("Juan","Perez"), 
-        new Persona("Laura","Juarez")
-    ];
+    personas: Persona[] = [];
 
-    saludar = new EventEmitter<number>();
+    constructor(private loginService: LoginService,
+                private dataService: DataService
+        ){}
 
-    constructor(private loginService: LoginService){}
+    //Lo usamos para iniciar el arreglo, ya que ya es asincrono desde la BD
+    //Se inicializa desde el compoente PersonasComponent    
+    setPersonas(personas: Persona[]){
+        this.personas = personas;
+    }
+
+    obtenerPersonas(){
+        return this.dataService.cargarPersonas();
+    }
 
     agregarPersona(persona: Persona){
         this.loginService.consolaEnviaMensaje("agregamos persona:" + persona.toString());
+        if(this.personas == null){
+            this.personas = [];            
+        }
         this.personas.push(persona);
+        this.dataService.guardarPersonas(this.personas);
+        //Si se guarda solo un elemento se debe trabajar cada indice y regenerarlos con cada modificacion
+        //this.dataService.guardarPersona(persona, this.personas.length);
+
     }
 
     encontrarPersona(index:number){
@@ -29,10 +44,23 @@ export class PersonasService{
         let persona1 = this.personas[index];
         persona1.nombre = persona.nombre;
         persona1.apellido = persona.apellido;
+        this.dataService.modificarPersona(index, persona);
+
+    }
+
+    modificarPersonas(){
+        this.loginService.consolaEnviaMensaje("modificar todas las personas:");
+        if(this.personas != null)
+            //Guarda todas las personas nuevamente para regenerar indicess
+            this.dataService.guardarPersonas(this.personas);
+      
     }
 
     eliminarPersona(index:number){
         this.loginService.consolaEnviaMensaje("eliminar persona con indice: " + index); 
         this.personas.splice(index,1);
+        this.dataService.eliminarPersona(index);
+        //Se vuelven a guardar todas las personas para que coincida el indice con el arreglo en memoria
+        this.modificarPersonas();
     }
 }
