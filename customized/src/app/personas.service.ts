@@ -1,5 +1,5 @@
 import { Persona } from './persona.model';
-import { LoginService } from './login.service';
+import { LoggingService } from './LoggingService.service';
 import { Injectable } from '@angular/core';
 import { DataService } from './data.service';
 
@@ -7,7 +7,7 @@ import { DataService } from './data.service';
 export class PersonasService{
     personas: Persona[] = [];
 
-    constructor(private loginService: LoginService,
+    constructor(private loggingService: LoggingService,
                 private dataService: DataService
         ){}
 
@@ -22,7 +22,7 @@ export class PersonasService{
     }
 
     agregarPersona(persona: Persona){
-        this.loginService.consolaEnviaMensaje("agregamos persona:" + persona.toString());
+        this.loggingService.enviaMensajeAConsola("agregamos persona:" + persona.toString());
         if(this.personas == null){
             this.personas = [];            
         }
@@ -35,12 +35,12 @@ export class PersonasService{
 
     encontrarPersona(index:number){
         let persona:Persona = this.personas[index];
-        this.loginService.consolaEnviaMensaje("persona encontrada:" + persona.toString());
+        this.loggingService.enviaMensajeAConsola("persona encontrada:" + persona.toString());
         return persona;
     }
 
     modificarPersona(index:number, persona:Persona){
-        this.loginService.consolaEnviaMensaje("persona a modificar:" + persona.toString() + " con indice:" + index);
+        this.loggingService.enviaMensajeAConsola("persona a modificar:" + persona.toString() + " con indice:" + index);
         let persona1 = this.personas[index];
         persona1.nombre = persona.nombre;
         persona1.apellido = persona.apellido;
@@ -49,7 +49,7 @@ export class PersonasService{
     }
 
     modificarPersonas(){
-        this.loginService.consolaEnviaMensaje("modificar todas las personas:");
+        this.loggingService.enviaMensajeAConsola("modificar todas las personas:");
         if(this.personas != null)
             //Guarda todas las personas nuevamente para regenerar indicess
             this.dataService.guardarPersonas(this.personas);
@@ -57,7 +57,7 @@ export class PersonasService{
     }
 
     eliminarPersona(index:number){
-        this.loginService.consolaEnviaMensaje("eliminar persona con indice: " + index); 
+        this.loggingService.enviaMensajeAConsola("eliminar persona con indice: " + index); 
         this.personas.splice(index,1);
         this.dataService.eliminarPersona(index);
         //Se vuelven a guardar todas las personas para que coincida el indice con el arreglo en memoria

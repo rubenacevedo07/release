@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Persona } from '../../persona.model';
-import { LoginService } from '../../login.service';
+import { LoggingService } from '../../LoggingService.service';
 import { PersonasService } from '../../personas.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
@@ -16,7 +16,7 @@ export class FormularioComponent implements OnInit {
   index:number;
   modoEdicion:number;
   
-  constructor(private loginService:LoginService,
+  constructor(private loggingService:LoggingService,
               private personasService:PersonasService,
               private router:Router,
               private route:ActivatedRoute ) {}
@@ -41,9 +41,9 @@ export class FormularioComponent implements OnInit {
         this.personasService.modificarPersona(this.index, persona1);
       }
       else{
-        this.personasService.agregarPersona(persona1);  
+        this.personasService.agregarPersona(persona1);
       }
-      this.loginService.consolaEnviaMensaje("persona agregada/modificada:" + persona1.toString());
+      this.loggingService.enviaMensajeAConsola("persona agregada/modificada:" + persona1.toString());
       this.router.navigate(['personas']);  
     }
     else{//si no tiene datos no hace nada se queda en el mismo lugar

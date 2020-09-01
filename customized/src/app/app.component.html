@@ -1,28 +1,11 @@
+<div *ngIf="!isAutenticado()" class="box centrado" >
+  <a routerLink="/login">Login</a>
+</div>
+<div *ngIf="isAutenticado()" class="box centrado" >    
+    <a style="cursor:pointer" (click)="salir()">Salir</a> 
+</div> 
+  
 <div class="box" id="heading">
   <h1>Listado de Personas</h1>
-</div>
+</div> 
 <router-outlet></router-outlet>
-
-<!-- The core Firebase JS SDK is always required and must be listed first -->
-<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-app.js"></script>
-
-<!-- TODO: Add SDKs for Firebase products that you want to use
-     https://firebase.google.com/docs/web/setup#available-libraries -->
-<script src="https://www.gstatic.com/firebasejs/7.19.1/firebase-analytics.js"></script>
-
-<script>
-  // Your web app's Firebase configuration
-  var firebaseConfig = {
-    apiKey: "AIzaSyAgCu986YLndiEeJLmCNwMbSAVKStFLlIc",
-    authDomain: "angu-14e0d.firebaseapp.com",
-    databaseURL: "https://angu-14e0d.firebaseio.com",
-    projectId: "angu-14e0d",
-    storageBucket: "angu-14e0d.appspot.com",
-    messagingSenderId: "670372212454",
-    appId: "1:670372212454:web:07ec02658680c7deec5527",
-    measurementId: "G-C986T5XL1V"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
-  firebase.analytics();
-</script>
